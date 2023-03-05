@@ -7,7 +7,53 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+	max-height: 100vh;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font: 62.5%/2.4em "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	background-color: #0d0d0d;
+}
+
+h1 {
+	font-size: 2.4em;
+	line-height: 1em;
+}
+h2 {
+	font-size: 1.8em;
+	line-height: 1.333em;
+}
+h3, h4, h5, h6 {
+	font-size: 1.4em;
+	line-height: 1.7143em;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+p, li, label, input, select, textarea, address, blockquote {
+	font-size: 1.4em;
+	line-height: 1.7143em;
+}
+p, dd, address, blockquote {
+	margin-bottom: 1.7143em;
+}
+ul li ul {
+	margin-bottom: 0;
+}
+
+/* nested sizes */
+li li, li p, td p, blockquote p {
+	font-size: 1em;
 }

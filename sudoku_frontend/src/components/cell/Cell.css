@@ -1,0 +1,45 @@
+
+.cell {
+    width: 100%;
+    aspect-ratio: 1/1;
+    position: relative; /* If you want text inside of it */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #4d4d4d;
+    color: #f4f4f4;
+    font-size: 1.4em;
+    font-weight: bold;
+    border: 1px solid #0d0d0d;
+}
+
+.cell-selected {
+    background-color: #d8742a;
+}
+
+.cell-peer {
+    background-color: #636363;
+}
+
+.cell-sameval {
+    background-color: #333333;
+}
+
+.cell-border-bottom {
+    border-bottom: 2px solid #0d0d0d;
+}
+
+.cell:nth-child(3n+3):not(:last-child) {
+    border-right: 2px solid #0d0d0d;
+}
+
+.note {
+    font-size: .6em;
+    width: 33%;
+    height: 33%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
