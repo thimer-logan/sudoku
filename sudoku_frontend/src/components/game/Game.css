@@ -1,6 +1,11 @@
 
 .container {
     max-width: 760px;
+    height: 100%;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
 }

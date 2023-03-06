@@ -7,8 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-	max-height: 100vh;
+html, body, #root {
+	width: 100%;
+	height: 100%;
+	margin: 0;
 }
 
 code {
@@ -46,7 +48,7 @@ p, li, label, input, select, textarea, address, blockquote {
 	font-size: 1.4em;
 	line-height: 1.7143em;
 }
-p, dd, address, blockquote {
+p {
 	margin-bottom: 1.7143em;
 }
 ul li ul {

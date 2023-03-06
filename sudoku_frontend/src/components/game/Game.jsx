@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useKeypress from 'react-use-keypress';
+import ActionBar from "../actionbar/ActionBar";
 import Board from "../board/Board";
 import './Game.css';
 
@@ -18,12 +19,16 @@ function Game() {
 
     const [selectedCell, setSelectedCell] = useState(null);
 
-    useKeypress(['1', '2', '3', '4', '5', '6', '7', '8', '9'], (event) => {
+    const setSelectedCellAsNum = (num) => {
         if (selectedCell && board[selectedCell.row][selectedCell.col] === 0) {
             const newBoard = [...board];
-            newBoard[selectedCell.row][selectedCell.col] = parseInt(event.key);
+            newBoard[selectedCell.row][selectedCell.col] = num;
             setBoard(newBoard);
         }
+    }
+
+    useKeypress(['1', '2', '3', '4', '5', '6', '7', '8', '9'], (event) => {
+        setSelectedCellAsNum(parseInt(event.key));
     });
 
     return (
@@ -34,6 +39,7 @@ function Game() {
                 selectedCell={selectedCell}
                 setSelected={setSelectedCell}
             />
+            <ActionBar onNumClick={setSelectedCellAsNum}/>
         </div>
     );
 

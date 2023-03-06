@@ -1,11 +1,11 @@
 
 .board {
     display: grid;
-    border-radius: 8px;
-    margin: 32px auto;
-    max-width: 600px;
+    height: 66%;
+    /* border-radius: 8px; */
+    margin: 0 auto;
     aspect-ratio: 1/1;
-    padding: 8px;
+    /* padding: 20px 8px; */
 }
 
 .board:focus {
