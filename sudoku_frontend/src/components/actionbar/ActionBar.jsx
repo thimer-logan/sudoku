@@ -8,7 +8,8 @@ import Col from "react-bootstrap/Col";
 import "./ActionBar.css";
 
 function ActionBar(props) {
-    const { onNumClick } = props;
+    const { onNumClick, onEraseClick, notes, setNotes } = props;
+
     return (
         <div className="action-bar-container">
             <div className="action-bar-row">
@@ -20,18 +21,18 @@ function ActionBar(props) {
                     <FaRedo className="action-icon" />
                     <p className="action-icon-text">Redo</p>
                 </div>
-                <div className="action-bar-item">
+                <div className="action-bar-item" onClick={() => onEraseClick()}>
                     <BsEraser className="action-icon" />
                     <p className="action-icon-text">Erase</p>
                 </div>
-                <div className="action-bar-item">
-                    <FaPencilAlt className="action-icon" />
+                <div className="action-bar-item" onClick={() => setNotes(!notes)}>
+                    <FaPencilAlt className={"action-icon" + (notes ? " action-icon-selected": "")} />
                     <p className="action-icon-text">Notes</p>
                 </div>
             </div>
             <div className="action-bar-row">
                 {Array.from({length: 9}, (_, num) => num + 1).map((i) => {
-                    return <h6 onClick={() => onNumClick(i)}>{i}</h6>
+                    return <h6 key={i} onClick={() => onNumClick(i)}>{i}</h6>
                 }) }
             </div>
         </div>

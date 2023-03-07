@@ -18,17 +18,18 @@ function Board(props) {
         <div className="board" tabIndex="0">
             {board.map((row, rowIndex) => (
                 <div className="row" key={rowIndex}>
-                {row.map((cellValue, colIndex) => (
+                {row.map((cell) => (
                     <Cell
-                        key={`${rowIndex}-${colIndex}`}
-                        value={cellValue}
-                        isSelected={selectedCell && selectedCell.row === rowIndex && selectedCell.col === colIndex}
-                        isPeer={selectedCell && (selectedCell.row === rowIndex || selectedCell.col === colIndex || sameSquare(rowIndex, colIndex, selectedCell.row, selectedCell.col))}
-                        sameValue={selectedCell && board[selectedCell.row][selectedCell.col] === cellValue && cellValue !== 0}
-                        onClick={() => handleCellClick(rowIndex, colIndex)}
+                        key={`${cell.row}-${cell.col}`}
+                        value={cell.value}
+                        isSelected={selectedCell && selectedCell.row === cell.row && selectedCell.col === cell.col}
+                        isPeer={selectedCell && (selectedCell.row === cell.row || selectedCell.col === cell.col || sameSquare(cell.row, cell.col, selectedCell.row, selectedCell.col))}
+                        sameValue={selectedCell && board[selectedCell.row][selectedCell.col].value === cell.value && cell.value !== 0}
+                        onClick={() => handleCellClick(cell.row, cell.col)}
                         setBoard={setBoard}
-                        row={rowIndex}
-                        col={colIndex}
+                        notes={cell.notes}
+                        row={cell.row}
+                        col={cell.col}
                     />
                 ))}
                 </div>

@@ -9,7 +9,7 @@
     flex-wrap: wrap;
     background-color: #4d4d4d;
     color: #f4f4f4;
-    font-size: 1.4em;
+    font-size: 2vw;
     font-weight: bold;
     border: 1px solid #0d0d0d;
 }
@@ -35,7 +35,8 @@
 }
 
 .note {
-    font-size: .6em;
+    color: #d6d6d6;
+    font-size: 0.75vw;
     width: 33%;
     height: 33%;
     box-sizing: border-box;
