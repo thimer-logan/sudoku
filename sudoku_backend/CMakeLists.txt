@@ -9,7 +9,9 @@ add_executable(SudokuAPI
     main.cpp 
     SudokuResourceFactory.cpp
     SudokuService.cpp
-    SudokuServiceSettingsFactory.cpp)
+    SudokuServiceSettingsFactory.cpp
+    Cell.cpp
+    Board.cpp)
 
 target_link_libraries(SudokuAPI PRIVATE unofficial::restbed::restbed)
 target_include_directories(SudokuAPI PUBLIC ${CMAKE_SOURCE_DIR}/include)
