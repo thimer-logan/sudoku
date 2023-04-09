@@ -1,17 +1,23 @@
-cmake_minimum_required(VERSION 3.0.0)
+﻿# CMakeList.txt : CMake project for sudoku_backend, include source and define
+# project specific logic here.
+#
+cmake_minimum_required (VERSION 3.8)
+
+# Enable Hot Reload for MSVC compilers if supported.
+if (POLICY CMP0141)
+  cmake_policy(SET CMP0141 NEW)
+  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+endif()
+
 project(SudokuAPI VERSION 0.1.0)
 
-INCLUDE_DIRECTORIES(C:/Libraries/restbed/vcpkg/installed/x86-windows/include)
-LINK_DIRECTORIES(C:/Libraries/restbed/vcpkg/installed/x86-windows/lib)
-find_package(unofficial-restbed CONFIG REQUIRED)
+add_subdirectory (src)
 
-add_executable(SudokuAPI 
-    main.cpp 
-    SudokuResourceFactory.cpp
-    SudokuService.cpp
-    SudokuServiceSettingsFactory.cpp
-    Cell.cpp
-    Board.cpp)
+enable_testing ()
+add_subdirectory (test)
 
-target_link_libraries(SudokuAPI PRIVATE unofficial::restbed::restbed)
-target_include_directories(SudokuAPI PUBLIC ${CMAKE_SOURCE_DIR}/include)
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set_property(TARGET SudokuAPI PROPERTY CXX_STANDARD 20)
+endif()
+
+# TODO: Add tests and install targets if needed.

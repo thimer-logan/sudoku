@@ -15,7 +15,19 @@ class Board {
 public:
     Board();
 
-    std::vector<std::vector<std::shared_ptr<Cell>>> get_board();
+    Board(const std::vector<std::vector<int>>& board);
+
+    Board(const std::vector<int>& board);
+
+    Board(std::vector<std::vector<std::shared_ptr<Cell>>> board);
+
+    Board(std::vector<std::shared_ptr<Cell>> board);
+
+    std::vector<std::vector<std::shared_ptr<Cell>>> get_board() const;
+
+    void set_board(const std::vector<std::shared_ptr<Cell>>& board);
+
+    void set_board(const std::vector<std::vector<std::shared_ptr<Cell>>>& board);
 
     void print_board() const;
 
@@ -23,11 +35,13 @@ public:
 
     void set_cell_value(int row, int col, int value, bool fixed=false);
 
+    void reset_cell_value(int row, int col);
+
     bool is_cell_fixed(int row, int col) const;
 
     bool is_solved() const;
 
-    bool is_valid_move(int row, int col, int value) const;
+    bool is_valid_move(int row, int col, int value);
 
     void clear_board();
 

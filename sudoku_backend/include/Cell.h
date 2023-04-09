@@ -8,11 +8,11 @@ struct Point {
     int y;
 };
 
-inline bool operator == (const Point &lhs, const Point &rhs) {
+inline bool operator==(const Point &lhs, const Point &rhs) {
     return lhs.x == rhs.x && lhs.y == rhs.y;
 }
 
-inline bool operator < (const Point &lhs, const Point &rhs) {
+inline bool operator<(const Point &lhs, const Point &rhs) {
     return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y);
 }
 
@@ -20,7 +20,16 @@ class Cell {
 
 public:
     Cell(int x, int y);
+    Cell(int x, int y, int value);
     Cell(Point point);
+
+    // Copy constructor
+    Cell(const Cell& other);
+
+    // Move constructor
+    Cell(Cell&& other) noexcept;
+
+    Cell& operator=(Cell&& other) noexcept;
 
     int get_value() const;
     void set_value(int value);
