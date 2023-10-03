@@ -10,7 +10,13 @@ using namespace web;
 using namespace web::http;
 using namespace web::http::experimental::listener;
 
-// Replace with your Sudoku generator and solver functions
+ std::vector<std::vector<std::shared_ptr<Cell>>> generate_sudoku(Difficulty difficulty) {
+     Generator gen;
+     Board board(gen.generate_board());
+     gen.remove_values(board, difficulty);
+     return board.get_board();
+ }
+
  std::vector<std::vector<std::shared_ptr<Cell>>> generate_sudoku() {
      Generator gen;
      Board board(gen.generate_board());
@@ -21,9 +27,35 @@ using namespace web::http::experimental::listener;
      return U("Solved Sudoku puzzle");
  }
 
+ Difficulty stringToDifficulty(const std::string& difficulty) {
+     if (difficulty == "easy") {
+         return EASY;
+     }
+     else if (difficulty == "medium") {
+         return MEDIUM;
+     }
+     else if (difficulty == "hard") {
+         return HARD;
+     }
+     else if (difficulty == "extreme") {
+         return EXTREME;
+     }
+ }
+
  void handle_get(http_request request) {
      if (request.relative_uri().path() == U("/sudoku/generate")) {
-         auto generated_puzzle = generate_sudoku();
+         std::cout << "Generate" << std::endl;
+         // Extract the query parameters from the URI
+         auto query_params = request.relative_uri().split_query(request.relative_uri().query());
+         std::cout << query_params.size() << std::endl;
+         std::vector<std::vector<std::shared_ptr<Cell>>> generated_puzzle;
+         if (query_params.size() > 0) {
+             std::cout << conversions::to_utf8string(query_params[U("difficulty")]) << std::endl;
+             generated_puzzle = generate_sudoku(stringToDifficulty(conversions::to_utf8string(query_params[U("difficulty")])));
+         }
+         else {
+             generated_puzzle = generate_sudoku();
+         }
 
          // Convert the 2D vector into a JSON array of arrays
          json::value json_puzzle = json::value::array();
@@ -35,8 +67,13 @@ using namespace web::http::experimental::listener;
              json_puzzle[i] = json_row;
          }
 
-         request.reply(status_codes::OK, json_puzzle);
-     } else {
+         http_response response(status_codes::OK);
+         response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+         response.set_body(json_puzzle);
+         request.reply(response);
+
+     }
+     else {
          request.reply(status_codes::NotFound);
      }
  }
@@ -52,9 +89,19 @@ using namespace web::http::experimental::listener;
              .then([&](json::value json_response) {
                  request.reply(status_codes::OK, json_response);
              });
-     } else {
+     }
+     else {
          request.reply(status_codes::NotFound);
      }
+ }
+
+ void handle_options(http_request request) {
+     http_response response(status_codes::OK);
+     response.headers().add(U("Allow"), U("GET, POST, OPTIONS"));
+     response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+     response.headers().add(U("Access-Control-Allow-Methods"), U("GET, POST, OPTIONS"));
+     response.headers().add(U("Access-Control-Allow-Headers"), U("Content-Type"));
+     request.reply(response);
  }
 
 
@@ -63,6 +110,7 @@ int main() {
 
      listener.support(methods::GET, handle_get);
      listener.support(methods::POST, handle_post);
+     listener.support(methods::OPTIONS, handle_options);
 
      try {
          listener.open()
