@@ -1,0 +1,66 @@
+.congrats-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 20px;
+  gap: 20px;
+}
+
+.congrats-container>h1 {
+  color: white;
+  animation: growShrink 1.5s ease;
+}
+
+@keyframes growShrink {
+  25% {
+    font-size: 2em;
+  }
+
+  50% {
+    font-size: 4em;
+  }
+
+  75% {
+    font-size: 2em;
+  }
+
+  100% {
+    font-size: 2.4em;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+
+  75% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.slide-in {
+  animation: slideInFromRight 1s ease-in-out;
+}
+
+.btn {
+  font-size: 24px;
+  padding: 10px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #f3f3f3;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #d8742a;
+}
