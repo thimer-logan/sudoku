@@ -12,7 +12,7 @@ function MainMenu() {
         <button className="main-btn">Board Generator</button>
       </Link>
       <Link to="/solver">
-        <button className="main-btn">Board Solver</button>
+        <button className="main-btn">Solver</button>
       </Link>
     </div>
   );
