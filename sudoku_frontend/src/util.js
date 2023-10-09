@@ -40,3 +40,17 @@ export const createBoard = (puzzle) => {
 
   return newBoard;
 };
+
+export const boardToVec = (puzzle) => {
+  const new_board = [];
+  for (let i = 0; i < 9; i++) {
+    const row = [];
+    for (let j = 0; j < 9; j++) {
+      row.push(puzzle[i][j].value);
+    }
+
+    new_board.push(row);
+  }
+
+  return new_board;
+};
