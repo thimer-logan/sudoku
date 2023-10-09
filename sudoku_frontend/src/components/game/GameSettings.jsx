@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Dropdown from "../dropdown/Dropdown";
+import Dropdown from "../ui/Dropdown";
 import "./GameSettings.css";
 import { DifficultyOptions } from "../../util";
 

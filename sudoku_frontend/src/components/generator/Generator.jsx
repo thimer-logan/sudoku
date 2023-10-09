@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Board from "../board/Board";
-import Dropdown from "../dropdown/Dropdown";
+import Dropdown from "../ui/Dropdown";
 import "./Generator.css";
 import { DifficultyOptions, createBoard } from "../../util";
 
