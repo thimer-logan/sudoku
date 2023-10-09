@@ -2,13 +2,10 @@ import React from "react";
 
 import { FaUndo, FaRedo, FaPencilAlt } from "react-icons/fa";
 import { BsEraser } from "react-icons/bs";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import "./ActionBar.css";
 
 function ActionBar(props) {
-  const { onNumClick, onEraseClick, notes, setNotes } = props;
+  const { onNumClick, onEraseClick, notes, setNotes, hideNotes } = props;
 
   return (
     <div className="action-bar-container">
@@ -25,15 +22,17 @@ function ActionBar(props) {
           <BsEraser className="action-icon" />
           <p className="action-icon-text">Erase</p>
         </div>
-        <div
-          className={
-            "action-bar-item" + (notes ? " action-bar-item-selected" : "")
-          }
-          onClick={() => setNotes(!notes)}
-        >
-          <FaPencilAlt className="action-icon" />
-          <p className="action-icon-text">Notes</p>
-        </div>
+        {hideNotes !== true && (
+          <div
+            className={
+              "action-bar-item" + (notes ? " action-bar-item-selected" : "")
+            }
+            onClick={() => setNotes(!notes)}
+          >
+            <FaPencilAlt className="action-icon" />
+            <p className="action-icon-text">Notes</p>
+          </div>
+        )}
       </div>
       <div className="action-bar-row">
         {Array.from({ length: 9 }, (_, num) => num + 1).map((i) => {
