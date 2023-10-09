@@ -4,7 +4,7 @@ import "./MainMenu.css";
 
 function MainMenu() {
   return (
-    <div className="button-container">
+    <div className="main-btn-container">
       <Link to="/game">
         <button className="main-btn">Play Game</button>
       </Link>
