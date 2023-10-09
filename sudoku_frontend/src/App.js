@@ -5,6 +5,7 @@ import "./App.css";
 import HomePage from "./pages/Home";
 import Game from "./components/game/Game";
 import Generator from "./components/generator/Generator";
+import Solver from "./components/solver/Solver";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/generator",
         element: <Generator />,
+      },
+      {
+        path: "/solver",
+        element: <Solver />,
       },
     ],
   },
