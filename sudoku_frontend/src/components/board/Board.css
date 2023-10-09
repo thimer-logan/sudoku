@@ -2,11 +2,15 @@
     display: grid;
 
     /* border-radius: 8px; */
-    aspect-ratio: 1/1;
+    aspect-ratio: 1;
     /* padding: 20px 8px; */
-    grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(9, 1fr);
+    grid-template: repeat(9, 1fr) / repeat(9, 1fr);
     width: min(calc(100vmin - 300px), 100%);
+    /* height: min(calc(100vmin - 300px), 100%); */
+    /* width: 500px; */
+    /* height: 500px; */
+    aspect-ratio: 1;
+    /* height: auto; */
     /* Deduct the height of the action bar and header */
     /* height: calc(100vmin - 200px); */
     gap: 2px;
