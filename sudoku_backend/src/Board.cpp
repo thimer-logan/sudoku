@@ -189,6 +189,11 @@ void Board::clear_board() {
     }
 }
 
+int Board::get_width() const
+{
+    return 9;
+}
+
 void Board::initialize_board() {
     for (int i = 0; i < 9; i++) {
         std::vector<std::shared_ptr<Cell>> row;
