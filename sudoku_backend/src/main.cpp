@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Generator.h"
 #include "Board.h"
+#include "DomainBoard.h"
+#include "Solver.h"
 
 using namespace utility;
 using namespace web;
@@ -23,8 +25,10 @@ using namespace web::http::experimental::listener;
      return board.get_board();
  }
 
- utility::string_t solve_sudoku(utility::string_t input_puzzle) {
-     return U("Solved Sudoku puzzle");
+ std::vector<std::vector<std::shared_ptr<Cell>>> solve_sudoku(Board& input_puzzle) {
+     Solver solver(input_puzzle);
+
+     return solver.solve().get_board();
  }
 
  Difficulty stringToDifficulty(const std::string& difficulty) {
@@ -37,9 +41,22 @@ using namespace web::http::experimental::listener;
      else if (difficulty == "hard") {
          return HARD;
      }
-     else if (difficulty == "extreme") {
+     else {
          return EXTREME;
      }
+ }
+
+ Board parse_puzzle(const web::json::array& input_array)
+ {
+     Board b;
+
+     for (int i = 0; i < 9; i++) {
+         json::value row = input_array.at(i);
+         for (int j = 0; j < 9; j++) {
+             b.set_cell_value(i, j, row.at(j).as_integer());
+         }
+     }
+     return b;
  }
 
  void handle_get(http_request request) {
@@ -80,15 +97,44 @@ using namespace web::http::experimental::listener;
 
  void handle_post(http_request request) {
      if (request.relative_uri().path() == U("/sudoku/solve")) {
-         request.extract_json()
-             .then([](web::json::value json_data) {
-                 auto input_puzzle = json_data[U("puzzle")].as_string();
-                 auto solved_puzzle = solve_sudoku(input_puzzle);
-                 return json::value::string(solved_puzzle);
-             })
-             .then([&](json::value json_response) {
-                 request.reply(status_codes::OK, json_response);
-             });
+         std::cout << "Solve" << std::endl;
+         json::value body = request.extract_json().get();
+
+         // Check if the "puzzle" key exists and is an array
+         if (!body.has_field(U("puzzle")) || !body[U("puzzle")].is_array()) {
+             std::cout << "Bad Request" << std::endl;
+             request.reply(status_codes::BadRequest, U("Invalid data format! Expected 'puzzle' field with 2D array."));
+             return;
+         }
+
+         json::array jsonArray = body[U("puzzle")].as_array();
+         
+         std::vector<std::vector<int>> cells;
+         for (int i = 0; i < 9; ++i) {
+             std::vector<int> row;
+             for (int j = 0; j < 9; ++j) {
+                 row.push_back(jsonArray[i][j].as_integer());
+             }
+             cells.push_back(row);
+         }
+
+         Board b(cells);
+         auto solved_puzzle = solve_sudoku(b);
+
+         // Convert the 2D vector into a JSON array of arrays
+         json::value json_puzzle = json::value::array();
+         for (size_t i = 0; i < solved_puzzle.size(); ++i) {
+             json::value json_row = json::value::array();
+             for (size_t j = 0; j < solved_puzzle[i].size(); ++j) {
+                 json_row[j] = json::value::number(solved_puzzle[i][j]->get_value());
+             }
+             json_puzzle[i] = json_row;
+         }
+
+         http_response response(status_codes::OK);
+         response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+         response.set_body(json_puzzle);
+         request.reply(response);
      }
      else {
          request.reply(status_codes::NotFound);
