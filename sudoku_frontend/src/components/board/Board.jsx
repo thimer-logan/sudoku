@@ -2,10 +2,13 @@ import React, { useImperativeHandle, useState } from "react";
 import useKeypress from "react-use-keypress";
 import Cell from "../cell/Cell";
 import "./Board.css";
+import _ from "lodash";
 
 const Board = React.forwardRef((props, ref) => {
   const { board, setBoard, notes } = props;
   const [selectedCell, setSelectedCell] = useState(null);
+  const [history, setHistory] = React.useState([]);
+  const [future, setFuture] = React.useState([]);
 
   const handleCellClick = (row, col) => {
     setSelectedCell({ row, col });
@@ -53,18 +56,21 @@ const Board = React.forwardRef((props, ref) => {
   };
 
   const setSelectedCellAsNum = (num) => {
-    const newBoard = [...board];
-
     if (
       selectedCell &&
       board[selectedCell.row][selectedCell.col].value === 0 &&
       board[selectedCell.row][selectedCell.col].editable
     ) {
+      setHistory([...history, _.cloneDeep(board)]);
+      setFuture([]); // Clear any redo history
+
+      const newBoard = [...board];
+
       if (notes) {
         if (board[selectedCell.row][selectedCell.col].notes.has(num)) {
-          board[selectedCell.row][selectedCell.col].notes.delete(num);
+          newBoard[selectedCell.row][selectedCell.col].notes.delete(num);
         } else {
-          board[selectedCell.row][selectedCell.col].notes.add(num);
+          newBoard[selectedCell.row][selectedCell.col].notes.add(num);
         }
       } else {
         newBoard[selectedCell.row][selectedCell.col].value = num;
@@ -82,10 +88,33 @@ const Board = React.forwardRef((props, ref) => {
       board[selectedCell.row][selectedCell.col].editable
     ) {
       const newBoard = [...board];
+      setHistory([...history, _.cloneDeep(board)]);
+      setFuture([]); // Clear any redo history
       newBoard[selectedCell.row][selectedCell.col].value = 0;
       checkConflict(newBoard);
       setBoard(newBoard);
     }
+  };
+
+  const undo = () => {
+    console.log("Undo");
+    if (history.length === 0) return;
+    console.log(history);
+    const lastState = history[history.length - 1];
+    console.log(lastState);
+    setFuture([_.cloneDeep(board), ...future]);
+    setBoard(lastState);
+    setHistory(history.slice(0, -1));
+  };
+
+  const redo = () => {
+    console.log("Redo");
+    if (future.length === 0) return;
+
+    const nextState = future[0];
+    setHistory([...history, board]);
+    setBoard(nextState);
+    setFuture(future.slice(1));
   };
 
   useKeypress(["1", "2", "3", "4", "5", "6", "7", "8", "9"], (event) => {
@@ -95,6 +124,8 @@ const Board = React.forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     setSelectedCellValue: setSelectedCellAsNum,
     clearSelectedCell: clearSelectedCell,
+    undo: undo,
+    redo: redo,
   }));
 
   return (

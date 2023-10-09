@@ -89,6 +89,8 @@ function Game() {
           <ActionBar
             onNumClick={(num) => boardRef.current.setSelectedCellValue(num)}
             onEraseClick={() => boardRef.current.clearSelectedCell()}
+            onUndoClick={() => boardRef.current.undo()}
+            onRedoClick={() => boardRef.current.redo()}
             notes={notes}
             setNotes={setNotes}
           />

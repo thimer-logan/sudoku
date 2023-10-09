@@ -45,6 +45,8 @@ function Solver() {
         <ActionBar
           onNumClick={(num) => boardRef.current.setSelectedCellValue(num)}
           onEraseClick={() => boardRef.current.clearSelectedCell()}
+          onUndoClick={() => boardRef.current.undo()}
+          onRedoClick={() => boardRef.current.redo()}
           hideNotes={true}
         />
         <div className="button-container">

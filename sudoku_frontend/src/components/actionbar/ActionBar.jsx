@@ -5,16 +5,24 @@ import { BsEraser } from "react-icons/bs";
 import "./ActionBar.css";
 
 function ActionBar(props) {
-  const { onNumClick, onEraseClick, notes, setNotes, hideNotes } = props;
+  const {
+    onNumClick,
+    onEraseClick,
+    onUndoClick,
+    onRedoClick,
+    notes,
+    setNotes,
+    hideNotes,
+  } = props;
 
   return (
     <div className="action-bar-container">
       <div className="action-bar-row">
-        <div className="action-bar-item">
+        <div className="action-bar-item" onClick={() => onUndoClick()}>
           <FaUndo className="action-icon" />
           <p className="action-icon-text">Undo</p>
         </div>
-        <div className="action-bar-item">
+        <div className="action-bar-item" onClick={() => onRedoClick()}>
           <FaRedo className="action-icon" />
           <p className="action-icon-text">Redo</p>
         </div>
